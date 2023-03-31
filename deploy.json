@@ -1,0 +1,12 @@
+{
+  "apps": [
+    {
+      "name": "next",
+      "script": "./node_modules/next/dist/bin/next",
+      "args": "reload",
+      "env": {
+        "PORT": "80"
+      }
+    }
+  ]
+}
