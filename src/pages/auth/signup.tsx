@@ -69,22 +69,15 @@ export default function Home() {
                                 <Image width={'100'} height={'100'} src={'/google.svg'} alt={'kakao'}/>
                             </Grid>
                         </Grid>
-
-
                     </Box>
-                    <Typography component="h1" variant="h6" >
-                        <a onClick={()=>router.push('/auth/normal')}>
-                            일반 회원가입
-                        </a>
-
-                    </Typography>
                     <Button
                         type="submit"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
+                        onClick={()=>router.push('/auth/normal')}
                     >
-                        Sign Up
+                        일반 회원가입
                     </Button>
                 </Box>
             </main>

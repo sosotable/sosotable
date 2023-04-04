@@ -60,7 +60,7 @@ export default function Home() {
               }}
           >
               <Typography component="h1" variant="h5">
-                  Sign in
+                  소소식탁
               </Typography>
               <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                   <TextField
@@ -68,9 +68,9 @@ export default function Home() {
                       required
                       fullWidth
                       id="email"
-                      label="Email Address"
+                      label="email"
                       name="email"
-                      autoComplete="email"
+                      autoComplete="off"
                       autoFocus
                   />
                   <TextField
@@ -78,33 +78,43 @@ export default function Home() {
                       required
                       fullWidth
                       name="password"
-                      label="Password"
+                      label="비밀번호"
                       type="password"
                       id="password"
                       autoComplete="current-password"
                   />
                   <FormControlLabel
                       control={<Checkbox value="remember" color="primary" />}
-                      label="Remember me"
+                      label="자동로그인"
                   />
                   <Button
                       type="submit"
                       fullWidth
                       variant="contained"
-
                       sx={{ mt: 3, mb: 2 }}
                   >
-                      Sign In
+                      {"로그인"}
                   </Button>
+                  <Grid container spacing={0} sx={{mb: 2, mt: 1}}>
+                      <Grid item xs={12} sm={4}  sx={{display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+                          <Image width={'100'} height={'100'} src={'/kakao.svg'} alt={'kakao'}/>
+                      </Grid>
+                      <Grid item xs={12} sm={4}  sx={{display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+                          <Image width={'100'} height={'100'} src={'/naver.png'} alt={'kakao'}/>
+                      </Grid>
+                      <Grid item xs={12} sm={4}  sx={{display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+                          <Image width={'100'} height={'100'} src={'/google.svg'} alt={'kakao'}/>
+                      </Grid>
+                  </Grid>
                   <Grid container>
                       <Grid item xs>
-                          <Link onClick={()=>router.push('/auth/account')} variant="body2">
-                              Forgot password?
+                          <Link onClick={()=>router.push('/auth/find/account')} variant="body2">
+                              {"비밀번호를 잊어버렸나요?"}
                           </Link>
                       </Grid>
                       <Grid item>
                           <Link onClick={()=>router.push('/auth/signup')} variant="body2">
-                              {"Don't have an account? Sign Up"}
+                              {"계정이 없다면 회원가입하세요"}
                           </Link>
                       </Grid>
                   </Grid>
