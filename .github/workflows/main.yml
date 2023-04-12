@@ -34,7 +34,7 @@ jobs:
           npm run build
 
       - name: zip distributions
-        run: zip -r cicd-app.zip ./dist ./appspec.yml ./scripts
+        run: zip -r cicd-app.zip ./.next ./appspec.yml ./scripts
 
       - name: AWS configure credentials
         uses: aws-actions/configure-aws-credentials@v1
