@@ -48,7 +48,7 @@ jobs:
 
       - name: deploy with AWS codeDeploy
         run: aws deploy create-deployment
-          --application-name app
+          --application-name ssossotable
           --deployment-config-name CodeDeployDefault.OneAtATime
           --deployment-group-name group
           --s3-location bucket=ssossotable,bundleType=zip,key=public/cicd-app.zip
