@@ -12,4 +12,4 @@ sudo npm i
 # MARK: pm2를 사용해 80번 포트에 앱 실행
 # 참조
 # https://unchae.tistory.com/entry/PM2-80-443%ED%8F%AC%ED%8A%B8-%EC%82%AC%EC%9A%A9
-authbind --deep pm2 reload index.js --watch
+authbind --deep pm2 reload deploy.json --watch
