@@ -4,15 +4,29 @@ import {createWrapper, HYDRATE} from 'next-redux-wrapper';
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {RootState} from "@reduxjs/toolkit/src/query/core/apiState";
 
-export const subjectSlice = createSlice({
-    name: 'subject',
+export const userInfoSlice = createSlice({
+    name: 'userInfo',
 
-    initialState: {} as any,
+    initialState: {
+        id: '',
+        password: '',
+        nickname: ''
+    } as any,
 
     reducers: {
-        setEnt(state, action) {
-            return action.payload;
-        },
+        setInfo(state, action) {
+            switch (action.payload.option) {
+                case 'id':
+                    state.id = action.payload.value
+                    break
+                case 'password':
+                    state.password = action.payload.value
+                    break
+                case 'nickname':
+                    state.nickname = action.payload.value
+                    break
+            }
+        }
     },
 
     extraReducers: {
@@ -29,7 +43,7 @@ export const subjectSlice = createSlice({
 const makeStore = () =>
     configureStore({
         reducer: {
-            [subjectSlice.name]: subjectSlice.reducer,
+            [userInfoSlice.name]: userInfoSlice.reducer,
         },
         devTools: true,
     });
@@ -43,7 +57,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppState, unkn
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState<any, any, any>> = useSelector;
 
-export const fetchSubject =
+export const fetchUserInfo =
     (id: any): AppThunk =>
         async dispatch => {
             const timeoutPromise = (timeout: number) => new Promise(resolve => setTimeout(resolve, timeout));
@@ -51,7 +65,7 @@ export const fetchSubject =
             await timeoutPromise(200);
 
             dispatch(
-                subjectSlice.actions.setEnt({
+                userInfoSlice.actions.setInfo({
                     [id]: {
                         id,
                         name: `Subject ${id}`,
@@ -62,4 +76,6 @@ export const fetchSubject =
 
 export const wrapper = createWrapper<AppStore>(makeStore);
 
-export const selectSubject = (id: any) => (state: AppState) => state?.[subjectSlice.name]?.[id];
+export const selectUserInfo = (id: any) => (state: AppState) => state?.[userInfoSlice.name]?.[id];
+
+export const {setInfo} = userInfoSlice.actions

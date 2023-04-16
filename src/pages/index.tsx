@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useRouter} from 'next/router'
+import { useAppDispatch, useAppSelector, setInfo } from "@/components/store";
 
 function Copyright(props: any) {
 
@@ -34,9 +35,12 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
     const router = useRouter()
+    const dispatch = useAppDispatch()
+    const info = useAppSelector(state => state.userInfo)
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+        console.log(info)
         console.log({
             email: data.get('email'),
             password: data.get('password'),
@@ -72,6 +76,10 @@ export default function Home() {
                       name="email"
                       autoComplete="off"
                       autoFocus
+                      onChange={(e)=>{dispatch(setInfo({
+                          option:'id',
+                          value: e.target.value
+                      }))}}
                   />
                   <TextField
                       margin="normal"
@@ -82,6 +90,10 @@ export default function Home() {
                       type="password"
                       id="password"
                       autoComplete="current-password"
+                      onChange={(e)=>{dispatch(setInfo({
+                          option:'password',
+                          value: e.target.value
+                      }))}}
                   />
                   <FormControlLabel
                       control={<Checkbox value="remember" color="primary" />}
@@ -95,26 +107,26 @@ export default function Home() {
                   >
                       {"로그인"}
                   </Button>
-                  <Grid container spacing={0} sx={{mb: 2, mt: 1}}>
-                      <Grid item xs={12} sm={4}  sx={{display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-                          <Image width={'100'} height={'100'} src={'/kakao.svg'} alt={'kakao'}/>
+                  <Grid container spacing={0} sx={{mb: 2, mt: 1, ml:'auto', mr:'auto', width: '80%', flexWrap: 'nowrap'}}>
+                      <Grid item xs={12} sm={4}  sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignContent: 'center' }}>
+                          <Image width={'70'} height={'70'} src={'/kakao.svg'} alt={'kakao'}/>
                       </Grid>
                       <Grid item xs={12} sm={4}  sx={{display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-                          <Image width={'100'} height={'100'} src={'/naver.png'} alt={'kakao'}/>
+                          <Image width={'70'} height={'70'} src={'/naver.png'} alt={'kakao'}/>
                       </Grid>
                       <Grid item xs={12} sm={4}  sx={{display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-                          <Image width={'100'} height={'100'} src={'/google.svg'} alt={'kakao'}/>
+                          <Image width={'70'} height={'70'} src={'/google.svg'} alt={'kakao'}/>
                       </Grid>
                   </Grid>
                   <Grid container>
                       <Grid item xs>
                           <Link onClick={()=>router.push('/auth/find/account')} variant="body2">
-                              {"비밀번호를 잊어버렸나요?"}
+                              {"비밀번호 찾기"}
                           </Link>
                       </Grid>
                       <Grid item>
                           <Link onClick={()=>router.push('/auth/signup')} variant="body2">
-                              {"계정이 없다면 회원가입하세요"}
+                              {"회원가입"}
                           </Link>
                       </Grid>
                   </Grid>

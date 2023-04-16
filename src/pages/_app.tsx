@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import CssBaseline from "@mui/material/CssBaseline";
 
+
 function Copyright(props: any) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -20,7 +21,16 @@ function Copyright(props: any) {
         </Typography>
     );
 }
-const theme = createTheme();
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: "#F5F5DC",
+            // light: main값을 통해 계산됨
+            // dark: main값을 통해 계산됨
+            // contrastText: main값을 통해 계산됨
+        },
+    }
+});
 
 export default function App({Component, ...rest }: AppProps) {
     const {store, props} = wrapper.useWrappedStore(rest);
