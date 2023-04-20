@@ -40,7 +40,6 @@ export default function Home() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log(info)
         console.log({
             email: data.get('email'),
             password: data.get('password'),
@@ -120,12 +119,16 @@ export default function Home() {
                   </Grid>
                   <Grid container>
                       <Grid item xs>
-                          <Link onClick={()=>router.push('/auth/find/account')} variant="body2">
+                          <Link style={{
+                              color: 'black'
+                          }} onClick={()=>router.push('/auth/find/account')} variant="body2">
                               {"비밀번호 찾기"}
                           </Link>
                       </Grid>
                       <Grid item>
-                          <Link onClick={()=>router.push('/auth/signup')} variant="body2">
+                          <Link style={{
+                              color: 'black'
+                          }} onClick={()=>router.push('/auth/signup')} variant="body2">
                               {"회원가입"}
                           </Link>
                       </Grid>

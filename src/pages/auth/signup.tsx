@@ -58,15 +58,15 @@ export default function Home() {
                     </Typography>
 
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                        <Grid container spacing={2}>
+                        <Grid container spacing={2} sx={{ display: 'flex', flexWrap: 'nowrap' }}>
                             <Grid item xs={12} sm={4}>
-                                <Image width={'100'} height={'100'} src={'/kakao.svg'} alt={'kakao'}/>
+                                <Image width={'80'} height={'80'} src={'/kakao.svg'} alt={'kakao'}/>
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <Image width={'100'} height={'100'} src={'/naver.png'} alt={'kakao'}/>
+                                <Image width={'80'} height={'80'} src={'/naver.png'} alt={'kakao'}/>
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <Image width={'100'} height={'100'} src={'/google.svg'} alt={'kakao'}/>
+                                <Image width={'80'} height={'80'} src={'/google.svg'} alt={'kakao'}/>
                             </Grid>
                         </Grid>
                     </Box>
