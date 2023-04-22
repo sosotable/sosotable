@@ -18,8 +18,6 @@ import {useRouter} from 'next/router'
 
 const inter = Inter({ subsets: ['latin'] })
 
-
-
 const theme = createTheme();
 
 export default function Home() {
@@ -47,6 +45,7 @@ export default function Home() {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
+                        width: 4/5
                     }}
                 >
                     <Typography component="h1" variant="h5">
@@ -57,7 +56,8 @@ export default function Home() {
                         소셜 계정으로 간편하게 가입하세요
                     </Typography>
 
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                    <Box
+                        component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                         <Grid container spacing={2} sx={{ display: 'flex', flexWrap: 'nowrap' }}>
                             <Grid item xs={12} sm={4}>
                                 <Image width={'80'} height={'80'} src={'/kakao.svg'} alt={'kakao'}/>

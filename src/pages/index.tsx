@@ -56,16 +56,24 @@ export default function Home() {
       <main className={styles.main}>
           <Box
               sx={{
-                  marginTop: 8,
+                  marginTop: 2,
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
+                  width: 1
               }}
           >
-              <Typography component="h1" variant="h5">
-                  소소식탁
-              </Typography>
-              <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+              <img
+                  src={'logo.png'}
+                  style={{
+                      width: '50%',
+                      height: '50%'
+                  }}
+              />
+              <Box component="form" onSubmit={handleSubmit} noValidate sx={{
+                  mt: 1
+              }}>
+
                   <TextField
                       margin="normal"
                       required
