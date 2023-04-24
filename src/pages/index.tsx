@@ -64,10 +64,9 @@ export default function Home() {
               }}
           >
               <img
-                  src={'logo.png'}
+                  src={'main_logo.png'}
                   style={{
-                      width: '50%',
-                      height: '50%'
+                      width: 320
                   }}
               />
               <Box component="form" onSubmit={handleSubmit} noValidate sx={{
