@@ -15,28 +15,19 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useRouter} from 'next/router'
-import { useAppDispatch, useAppSelector, setInfo } from "@/components/store";
+import { useAppDispatch, useAppSelector, setInfo, addTag } from "@/components/store";
 import {Badge, Chip, Divider, IconButton, InputBase, Paper} from "@mui/material";
 import {Menu, Search, Directions} from "@mui/icons-material";
 import MiniDrawer from "@/components/drawer";
-function Copyright(props: any) {
-
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import {useState} from "react";
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
     const router = useRouter()
+    const dispatch = useAppDispatch()
+    const info = useAppSelector(state => state.userInfo)
+    const [tag, setTag] = useState('')
     return (
         <>
             <Head>
@@ -53,9 +44,39 @@ export default function Home() {
                     flexDirection: 'column',
                     justifyContent: 'flex-end',
                     alignItems: 'center',
-                    paddingTop: '2rem',
+                    paddingTop: '4rem',
                     paddingLeft: '2rem'
                 }}>
+                    <Box
+                        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 'auto' }}
+                    >
+                        <Paper
+                            component="form"
+                            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 4/5 }}
+                        >
+                            <InputBase
+                                sx={{ ml: 1, flex: 1 }}
+                                placeholder="add"
+                                value={tag}
+                                inputProps={{ 'aria-label': 'add' }}
+                                onChange={(e) => setTag(e.target.value)}
+                            />
+                            <IconButton
+                                type="button"
+                                sx={{ p: '10px' }}
+                                aria-label="search"
+                                onClick={()=>{
+                                    dispatch(addTag(tag))
+                                    setTag('')
+                                    console.log(info.tag)
+                                }}
+                            >
+                                <Search
+
+                                />
+                            </IconButton>
+                        </Paper>
+                    </Box>
                     <img src={"/logo.png"} style={{
                         width: 180,
                         height: 180,
@@ -105,20 +126,20 @@ export default function Home() {
                         }}>
                             <Chip label="Clickable"/>
                         </Badge>
+                        {
+                            info.tag.map((element, index) => (
+                                <Badge
+                                    badgeContent={element.count}
+                                    color="primary"
+                                    key={index}
+                                    style={{
+                                        margin: 10
+                                    }}>
+                                    <Chip label={element.value}/>
+                                </Badge>
+                            ))
+                        }
                     </Box>
-                    <Paper
-                        component="form"
-                        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 4/5 }}
-                    >
-                        <InputBase
-                            sx={{ ml: 1, flex: 1 }}
-                            placeholder="add"
-                            inputProps={{ 'aria-label': 'add' }}
-                        />
-                        <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                            <Search />
-                        </IconButton>
-                    </Paper>
                 </Box>
             </main>
         </>
