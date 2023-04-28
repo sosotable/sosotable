@@ -28,6 +28,14 @@ export default function Home() {
     const dispatch = useAppDispatch()
     const info = useAppSelector(state => state.userInfo)
     const [tag, setTag] = useState('')
+    const handleClick = () => {
+        console.info('You clicked the Chip.');
+    };
+
+    const handleDelete = () => {
+        console.info('You clicked the delete icon.');
+    };
+
     return (
         <>
             <Head>
@@ -47,42 +55,40 @@ export default function Home() {
                     paddingTop: '4rem',
                     paddingLeft: '2rem'
                 }}>
-                    <Box
-                        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 'auto' }}
-                    >
-                        <Paper
-                            component="form"
-                            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 4/5 }}
-                        >
-                            <InputBase
-                                sx={{ ml: 1, flex: 1 }}
-                                placeholder="add"
-                                value={tag}
-                                inputProps={{ 'aria-label': 'add' }}
-                                onChange={(e) => setTag(e.target.value)}
-                            />
-                            <IconButton
-                                type="button"
-                                sx={{ p: '10px' }}
-                                aria-label="search"
-                                onClick={()=>{
-                                    dispatch(addTag(tag))
-                                    setTag('')
-                                    console.log(info.tag)
-                                }}
-                            >
-                                <Search
-
-                                />
-                            </IconButton>
-                        </Paper>
-                    </Box>
                     <img src={"/logo.png"} style={{
-                        width: 180,
-                        height: 180,
+                        width: 120,
+                        height: 120,
                         margin: 20
                     }}/>
+                    <Typography variant="h6" gutterBottom>
+                        좋아!
+                    </Typography>
+                    <Paper
+                        component="form"
+                        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 4/5 }}
+                    >
+                        <InputBase
+                            sx={{ ml: 1, flex: 1 }}
+                            placeholder="add"
+                            value={tag}
+                            inputProps={{ 'aria-label': 'add' }}
+                            onChange={(e) => setTag(e.target.value)}
+                        />
+                        <IconButton
+                            type="button"
+                            sx={{ p: '10px' }}
+                            aria-label="search"
+                            onClick={()=>{
+                                dispatch(addTag(tag))
+                                setTag('')
+                                console.log(info.tag)
+                            }}
+                        >
+                            <Search
 
+                            />
+                        </IconButton>
+                    </Paper>
                     <Box sx={{
                         display: 'flex',
                         flexWrap: 'wrap',
@@ -94,37 +100,74 @@ export default function Home() {
                         <Badge badgeContent={4} color="primary" style={{
                             margin: 10
                         }}>
-                            <Chip label="Clickable"/>
+                            <Chip
+                                label="팥붕"
+                                onClick={handleClick}
+                                onDelete={handleDelete}
+                            />
                         </Badge>
                         <Badge badgeContent={4} color="primary" style={{
                             margin: 10
                         }}>
-                            <Chip label="Clickable"/>
+                            <Chip
+                                label="된장찌개"
+                                onClick={handleClick}
+                                onDelete={handleDelete}
+                            />
                         </Badge>
                         <Badge badgeContent={4} color="primary" style={{
                             margin: 10
                         }}>
-                            <Chip label="Clickable"/>
+                            <Chip
+                                label="야채곱창"
+                                onClick={handleClick}
+                                onDelete={handleDelete}
+                            />
                         </Badge>
                         <Badge badgeContent={4} color="primary" style={{
                             margin: 10
                         }}>
-                            <Chip label="Clickable"/>
+                            <Chip
+                                label="데이먼스 이어"
+                                onClick={handleClick}
+                                onDelete={handleDelete}
+                            />
                         </Badge>
                         <Badge badgeContent={4} color="primary" style={{
                             margin: 10
                         }}>
-                            <Chip label="Clickable"/>
+                            <Chip
+                                label="매운거"
+                                onClick={handleClick}
+                                onDelete={handleDelete}
+                            />
                         </Badge>
                         <Badge badgeContent={4} color="primary" style={{
                             margin: 10
                         }}>
-                            <Chip label="Clickable"/>
+                            <Chip
+                                label="운동"
+                                onClick={handleClick}
+                                onDelete={handleDelete}
+                            />
                         </Badge>
                         <Badge badgeContent={4} color="primary" style={{
                             margin: 10
                         }}>
-                            <Chip label="Clickable"/>
+                            <Chip
+                                label="초콜렛"
+                                onClick={handleClick}
+                                onDelete={handleDelete}
+                            />
+                        </Badge>
+                        <Badge badgeContent={4} color="primary" style={{
+                            margin: 10
+                        }}>
+                            <Chip
+                                label="INFJ"
+                                onClick={handleClick}
+                                onDelete={handleDelete}
+                            />
                         </Badge>
                         {
                             info.tag.map((element, index) => (
@@ -139,6 +182,80 @@ export default function Home() {
                                 </Badge>
                             ))
                         }
+                    </Box>
+                    <Typography variant="h6" gutterBottom>
+                        싫어...
+                    </Typography>
+                    <Paper
+                        component="form"
+                        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 4/5 }}
+                    >
+                        <InputBase
+                            sx={{ ml: 1, flex: 1 }}
+                            placeholder="add"
+                            value={tag}
+                            inputProps={{ 'aria-label': 'add' }}
+                            onChange={(e) => setTag(e.target.value)}
+                        />
+                        <IconButton
+                            type="button"
+                            sx={{ p: '10px' }}
+                            aria-label="search"
+                            onClick={()=>{
+                                dispatch(addTag(tag))
+                                setTag('')
+                                console.log(info.tag)
+                            }}
+                        >
+                            <Search
+
+                            />
+                        </IconButton>
+                    </Paper>
+                    <Box sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        margin: '10px'
+                    }}>
+                        <Badge badgeContent={4} color="primary" style={{
+                            margin: 10
+                        }}>
+                            <Chip
+                                label="익힌 채소"
+                                onClick={handleClick}
+                                onDelete={handleDelete}
+                            />
+                        </Badge>
+                        <Badge badgeContent={4} color="primary" style={{
+                            margin: 10
+                        }}>
+                            <Chip
+                                label="굴"
+                                onClick={handleClick}
+                                onDelete={handleDelete}
+                            />
+                        </Badge>
+                        <Badge badgeContent={4} color="primary" style={{
+                            margin: 10
+                        }}>
+                            <Chip
+                                label="마늘"
+                                onClick={handleClick}
+                                onDelete={handleDelete}
+                            />
+                        </Badge>
+                        <Badge badgeContent={4} color="primary" style={{
+                            margin: 10
+                        }}>
+                            <Chip
+                                label="서있기(허리아픔)"
+                                onClick={handleClick}
+                                onDelete={handleDelete}
+                            />
+                        </Badge>
                     </Box>
                 </Box>
             </main>

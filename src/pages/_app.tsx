@@ -40,7 +40,7 @@ export default function App({Component, ...rest }: AppProps) {
             <Provider store={store}>
                 <Component {...props.pageProps} />
             </Provider>
-            <Copyright sx={{ mt: 5 }} />
+            <Copyright sx={{ mt: 5, paddingTop: '4rem' }} />
         </ThemeProvider>
 
     );
