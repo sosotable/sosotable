@@ -36,6 +36,12 @@ export const userInfoSlice = createSlice({
                 value: action.payload,
                 count: 0
             })
+        },
+        increaseTagCount(state, action) {
+            state.tag[action.payload].count += 1
+        },
+        deleteTagCount(state, action) {
+            state.tag.splice(action.payload, 1)
         }
     },
 
@@ -88,4 +94,4 @@ export const wrapper = createWrapper<AppStore>(makeStore);
 
 export const selectUserInfo = (id: any) => (state: AppState) => state?.[userInfoSlice.name]?.[id];
 
-export const {setInfo, addTag} = userInfoSlice.actions
+export const {setInfo, addTag, increaseTagCount} = userInfoSlice.actions

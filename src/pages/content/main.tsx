@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useRouter} from 'next/router'
-import { useAppDispatch, useAppSelector, setInfo, addTag } from "@/components/store";
+import { useAppDispatch, useAppSelector, setInfo, addTag, increaseTagCount } from "@/components/store";
 import {Badge, Chip, Divider, IconButton, InputBase, Paper} from "@mui/material";
 import {Menu, Search, Directions} from "@mui/icons-material";
 import MiniDrawer from "@/components/drawer";
@@ -28,11 +28,14 @@ export default function Home() {
     const dispatch = useAppDispatch()
     const info = useAppSelector(state => state.userInfo)
     const [tag, setTag] = useState('')
-    const handleClick = () => {
-        console.info('You clicked the Chip.');
+    const handleClick = (...rest: any[]) => {
+        const index = rest[0]
+        console.log(index)
+        dispatch(increaseTagCount(index))
+        console.log(info)
     };
 
-    const handleDelete = () => {
+    const handleDelete = (...rest: any[]) => {
         console.info('You clicked the delete icon.');
     };
 
@@ -81,7 +84,6 @@ export default function Home() {
                             onClick={()=>{
                                 dispatch(addTag(tag))
                                 setTag('')
-                                console.log(info.tag)
                             }}
                         >
                             <Search
@@ -102,24 +104,6 @@ export default function Home() {
                         }}>
                             <Chip
                                 label="팥붕"
-                                onClick={handleClick}
-                                onDelete={handleDelete}
-                            />
-                        </Badge>
-                        <Badge badgeContent={4} color="primary" style={{
-                            margin: 10
-                        }}>
-                            <Chip
-                                label="된장찌개"
-                                onClick={handleClick}
-                                onDelete={handleDelete}
-                            />
-                        </Badge>
-                        <Badge badgeContent={4} color="primary" style={{
-                            margin: 10
-                        }}>
-                            <Chip
-                                label="야채곱창"
                                 onClick={handleClick}
                                 onDelete={handleDelete}
                             />
@@ -178,7 +162,11 @@ export default function Home() {
                                     style={{
                                         margin: 10
                                     }}>
-                                    <Chip label={element.value}/>
+                                    <Chip
+                                        label={element.value}
+                                        onClick={() => handleClick(index)}
+                                        onDelete={() => handleDelete(index)}
+                                    />
                                 </Badge>
                             ))
                         }
