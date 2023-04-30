@@ -15,10 +15,19 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useRouter} from 'next/router'
-
+import { useAppDispatch, useAppSelector, setInfo } from "@/components/store";
+import {ChangeEvent, useState, useCallback, useEffect} from "react";
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+    const dispatch = useAppDispatch()
+    const info: {
+        id: string,
+        password: string,
+        nickname: string
+    } = useAppSelector(state => state.userInfo)
+    const [passwordConfirm, setPasswordConfirm] = useState('')
+    const [passwordCheck, setPasswordCheck] = useState('')
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -27,6 +36,26 @@ export default function Home() {
             password: data.get('password'),
         });
     };
+    const handlePassword = (e: any) => {
+        if(5 < e.target.value.length && e.target.value.length < 21) {
+            console.log(e.target.value)
+            dispatch(setInfo({
+                option:'password',
+                value: e.target.value
+            }))
+        }
+    }
+
+    useEffect(()=>{
+        if(passwordConfirm != '') {
+            if(passwordConfirm === info.password) {
+                setPasswordCheck('비밀번호가 일치합니다!')
+            }
+            else {
+                setPasswordCheck('비밀번호가 달라요...')
+            }
+        }
+    })
     return (
         <>
             <Head>
@@ -41,11 +70,11 @@ export default function Home() {
                         marginTop: 8,
                         display: 'flex',
                         flexDirection: 'column',
-                        alignItems: 'center',
+                        alignItems: 'center'
                     }}
                 >
                     <Typography component="h1" variant="h5">
-                        Sign up
+                        {"회원가입"}
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
@@ -53,10 +82,16 @@ export default function Home() {
                                 <TextField
                                     required
                                     fullWidth
-                                    id="lastName"
-                                    label="Last Name"
-                                    name="lastName"
-                                    autoComplete="family-name"
+                                    id="nickname"
+                                    label="닉네임"
+                                    name="nickname"
+                                    autoComplete="off"
+                                    onChange={(e)=>{
+                                        dispatch(setInfo({
+                                            option:'nickname',
+                                            value: e.target.value
+                                        }))
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -64,9 +99,15 @@ export default function Home() {
                                     required
                                     fullWidth
                                     id="email"
-                                    label="Email Address"
+                                    label="이메일 주소"
                                     name="email"
-                                    autoComplete="email"
+                                    autoComplete="off"
+                                    onChange={(e)=>{
+                                        dispatch(setInfo({
+                                            option:'id',
+                                            value: e.target.value
+                                        }))
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -74,10 +115,13 @@ export default function Home() {
                                     required
                                     fullWidth
                                     name="password"
-                                    label="Password"
+                                    label="비밀번호"
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
+                                    helperText="6자에서 20자 사이의 비밀번호를 입력하세요"
+                                    inputProps={{ maxLength: 20 }}
+                                    onChange={handlePassword}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -85,16 +129,12 @@ export default function Home() {
                                     required
                                     fullWidth
                                     name="password"
-                                    label="Password"
+                                    label="비밀번호 확인"
                                     type="password"
                                     id="password"
-                                    autoComplete="new-password"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControlLabel
-                                    control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                    label="I want to receive inspiration, marketing promotions and updates via email."
+                                    autoComplete="off"
+                                    helperText={passwordCheck}
+                                    onChange={(e) => setPasswordConfirm(e.target.value)}
                                 />
                             </Grid>
                         </Grid>
@@ -104,12 +144,14 @@ export default function Home() {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign Up
+                            {"시작하기"}
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="/" variant="body2">
-                                    Already have an account? Sign in
+                                <Link style={{
+                                    color: 'black'
+                                }} href="/" variant="body2">
+                                    {"이미 계정이 있나요? 로그인하세요"}
                                 </Link>
                             </Grid>
                         </Grid>

@@ -8,19 +8,29 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import CssBaseline from "@mui/material/CssBaseline";
 
+
 function Copyright(props: any) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
+            <Link color="inherit" href="https://github.com/sosotable">
+                소소식탁
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>
     );
 }
-const theme = createTheme();
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: "#F5F5DC",
+            // light: main값을 통해 계산됨
+            // dark: main값을 통해 계산됨
+            // contrastText: main값을 통해 계산됨
+        },
+    }
+});
 
 export default function App({Component, ...rest }: AppProps) {
     const {store, props} = wrapper.useWrappedStore(rest);
@@ -30,7 +40,7 @@ export default function App({Component, ...rest }: AppProps) {
             <Provider store={store}>
                 <Component {...props.pageProps} />
             </Provider>
-            <Copyright sx={{ mt: 5 }} />
+            <Copyright sx={{ mt: 5, paddingTop: '4rem' }} />
         </ThemeProvider>
 
     );
