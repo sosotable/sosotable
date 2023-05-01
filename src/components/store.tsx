@@ -4,6 +4,8 @@ import {createWrapper, HYDRATE} from 'next-redux-wrapper';
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {RootState} from "@reduxjs/toolkit/src/query/core/apiState";
 
+
+
 export const userInfoSlice = createSlice({
     name: 'userInfo',
 

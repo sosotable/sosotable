@@ -23,16 +23,21 @@ import {useState} from "react";
 
 const inter = Inter({ subsets: ['latin'] })
 
+interface Info {
+    id: string,
+    password: string,
+    nickname: string,
+    tag: []
+}
+
 export default function Home() {
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const info = useAppSelector(state => state.userInfo)
+    const info: any | Info = useAppSelector(state => state.userInfo)
     const [tag, setTag] = useState('')
     const handleClick = (...rest: any[]) => {
         const index = rest[0]
-        console.log(index)
         dispatch(increaseTagCount(index))
-        console.log(info)
     };
 
     const handleDelete = (...rest: any[]) => {
@@ -154,7 +159,7 @@ export default function Home() {
                             />
                         </Badge>
                         {
-                            info.tag.map((element, index) => (
+                            info.tag.map((element: Info | any, index: number) => (
                                 <Badge
                                     badgeContent={element.count}
                                     color="primary"

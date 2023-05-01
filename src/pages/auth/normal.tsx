@@ -19,13 +19,16 @@ import { useAppDispatch, useAppSelector, setInfo } from "@/components/store";
 import {ChangeEvent, useState, useCallback, useEffect} from "react";
 const inter = Inter({ subsets: ['latin'] })
 
+interface Info {
+    id: string,
+    password: string,
+    nickname: string,
+    tag: []
+}
+
 export default function Home() {
     const dispatch = useAppDispatch()
-    const info: {
-        id: string,
-        password: string,
-        nickname: string
-    } = useAppSelector(state => state.userInfo)
+    const info: any | Info = useAppSelector(state => state.userInfo)
     const [passwordConfirm, setPasswordConfirm] = useState('')
     const [passwordCheck, setPasswordCheck] = useState('')
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
