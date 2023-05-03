@@ -151,7 +151,9 @@ export default function MiniDrawer() {
                                 >
                                     {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                 </ListItemIcon>
-                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                                <ListItemText primary={
+                                    index === 0 ? '나' : (index === 1 ? '친구' : '기타')
+                                } sx={{ opacity: open ? 1 : 0 }} />
                             </ListItemButton>
                         </ListItem>
                     ))}

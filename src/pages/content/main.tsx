@@ -17,22 +17,29 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useRouter} from 'next/router'
 import { useAppDispatch, useAppSelector, setInfo, addTag, increaseTagCount } from "@/components/store";
 import {Badge, Chip, Divider, IconButton, InputBase, Paper} from "@mui/material";
-import {Menu, Search, Directions} from "@mui/icons-material";
+import {Menu, Search, Directions, Favorite, Face} from "@mui/icons-material";
 import MiniDrawer from "@/components/drawer";
 import {useState} from "react";
+import MainModal from "@/components/modal/mainModal";
+import * as React from "react";
 
 const inter = Inter({ subsets: ['latin'] })
+
+interface Info {
+    id: string,
+    password: string,
+    nickname: string,
+    tag: []
+}
 
 export default function Home() {
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const info = useAppSelector(state => state.userInfo)
-    const [tag, setTag] = useState('')
+    const info: any | Info = useAppSelector(state => state.userInfo)
+
     const handleClick = (...rest: any[]) => {
         const index = rest[0]
-        console.log(index)
         dispatch(increaseTagCount(index))
-        console.log(info)
     };
 
     const handleDelete = (...rest: any[]) => {
@@ -64,33 +71,9 @@ export default function Home() {
                         margin: 20
                     }}/>
                     <Typography variant="h6" gutterBottom>
-                        좋아!
+                        소소식탁
                     </Typography>
-                    <Paper
-                        component="form"
-                        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 4/5 }}
-                    >
-                        <InputBase
-                            sx={{ ml: 1, flex: 1 }}
-                            placeholder="add"
-                            value={tag}
-                            inputProps={{ 'aria-label': 'add' }}
-                            onChange={(e) => setTag(e.target.value)}
-                        />
-                        <IconButton
-                            type="button"
-                            sx={{ p: '10px' }}
-                            aria-label="search"
-                            onClick={()=>{
-                                dispatch(addTag(tag))
-                                setTag('')
-                            }}
-                        >
-                            <Search
-
-                            />
-                        </IconButton>
-                    </Paper>
+                    <MainModal/>
                     <Box sx={{
                         display: 'flex',
                         flexWrap: 'wrap',
@@ -103,6 +86,7 @@ export default function Home() {
                             margin: 10
                         }}>
                             <Chip
+                                icon={<Face />}
                                 label="팥붕"
                                 onClick={handleClick}
                                 onDelete={handleDelete}
@@ -154,7 +138,7 @@ export default function Home() {
                             />
                         </Badge>
                         {
-                            info.tag.map((element, index) => (
+                            info.tag.map((element: Info | any, index: number) => (
                                 <Badge
                                     badgeContent={element.count}
                                     color="primary"
@@ -171,80 +155,7 @@ export default function Home() {
                             ))
                         }
                     </Box>
-                    <Typography variant="h6" gutterBottom>
-                        싫어...
-                    </Typography>
-                    <Paper
-                        component="form"
-                        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 4/5 }}
-                    >
-                        <InputBase
-                            sx={{ ml: 1, flex: 1 }}
-                            placeholder="add"
-                            value={tag}
-                            inputProps={{ 'aria-label': 'add' }}
-                            onChange={(e) => setTag(e.target.value)}
-                        />
-                        <IconButton
-                            type="button"
-                            sx={{ p: '10px' }}
-                            aria-label="search"
-                            onClick={()=>{
-                                dispatch(addTag(tag))
-                                setTag('')
-                                console.log(info.tag)
-                            }}
-                        >
-                            <Search
 
-                            />
-                        </IconButton>
-                    </Paper>
-                    <Box sx={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        margin: '10px'
-                    }}>
-                        <Badge badgeContent={4} color="primary" style={{
-                            margin: 10
-                        }}>
-                            <Chip
-                                label="익힌 채소"
-                                onClick={handleClick}
-                                onDelete={handleDelete}
-                            />
-                        </Badge>
-                        <Badge badgeContent={4} color="primary" style={{
-                            margin: 10
-                        }}>
-                            <Chip
-                                label="굴"
-                                onClick={handleClick}
-                                onDelete={handleDelete}
-                            />
-                        </Badge>
-                        <Badge badgeContent={4} color="primary" style={{
-                            margin: 10
-                        }}>
-                            <Chip
-                                label="마늘"
-                                onClick={handleClick}
-                                onDelete={handleDelete}
-                            />
-                        </Badge>
-                        <Badge badgeContent={4} color="primary" style={{
-                            margin: 10
-                        }}>
-                            <Chip
-                                label="서있기(허리아픔)"
-                                onClick={handleClick}
-                                onDelete={handleDelete}
-                            />
-                        </Badge>
-                    </Box>
                 </Box>
             </main>
         </>
