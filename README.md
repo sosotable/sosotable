@@ -1,6 +1,6 @@
 ## 소소식탁
 
-### 
+### https://ssossotable.com
 
 ### Frontend client
 
