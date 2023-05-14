@@ -19,6 +19,9 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import {width} from "@mui/system";
+import {Bookmarks, People, Home, Settings} from "@mui/icons-material";
+import {useRouter} from "next/router";
+
 
 const drawerWidth = 240;
 
@@ -93,6 +96,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function MiniDrawer() {
     const theme = useTheme();
+    const router = useRouter()
     const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
@@ -102,7 +106,21 @@ export default function MiniDrawer() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+    const handleDrawerMenuClick = (option: string) => {
 
+    }
+    const handleIcon = (option: string) => {
+        switch (option) {
+            case 'Home':
+                return <Home/>
+            case 'People':
+                return <People/>
+            case 'Bookmarks':
+                return <Bookmarks/>
+            case 'Settings':
+                return <Settings/>
+        }
+    };
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -133,14 +151,15 @@ export default function MiniDrawer() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+                    {[['Home', '홈', '/content/main'], ['People', '친구', '/content/friend'], ['Bookmarks', '다이어리', '/content/diray']].map((element: string[], index) => (
+                        <ListItem key={element[0]} disablePadding sx={{ display: 'block' }} >
                             <ListItemButton
                                 sx={{
                                     minHeight: 48,
                                     justifyContent: open ? 'initial' : 'center',
                                     px: 2.5,
                                 }}
+                                onClick={()=>router.push(element[2])}
                             >
                                 <ListItemIcon
                                     sx={{
@@ -149,10 +168,10 @@ export default function MiniDrawer() {
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                    {handleIcon(element[0])}
                                 </ListItemIcon>
                                 <ListItemText primary={
-                                    index === 0 ? '나' : (index === 1 ? '친구' : '기타')
+                                    element[1]
                                 } sx={{ opacity: open ? 1 : 0 }} />
                             </ListItemButton>
                         </ListItem>
@@ -160,14 +179,15 @@ export default function MiniDrawer() {
                 </List>
                 <Divider />
                 <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+                    {[['Settings', '설정', '/manage/settings']].map((element: string[], index) => (
+                        <ListItem key={element[0]} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton
                                 sx={{
                                     minHeight: 48,
                                     justifyContent: open ? 'initial' : 'center',
                                     px: 2.5,
                                 }}
+                                onClick={()=>router.push(element[2])}
                             >
                                 <ListItemIcon
                                     sx={{
@@ -176,9 +196,9 @@ export default function MiniDrawer() {
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                    {handleIcon(element[0])}
                                 </ListItemIcon>
-                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                                <ListItemText primary={element[1]} sx={{ opacity: open ? 1 : 0 }} />
                             </ListItemButton>
                         </ListItem>
                     ))}
