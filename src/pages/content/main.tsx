@@ -36,10 +36,16 @@ export default function Home() {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const info: any | Info = useAppSelector(state => state.userInfo)
+    const [count, setCount]  = useState(1)
+
+    const onIncrease = () => {
+        setCount(count + 1);
+    }
 
     const handleClick = (...rest: any[]) => {
         const index = rest[0]
-        dispatch(increaseTagCount(index))
+        console.info("clicked ")
+        // dispatch(increaseTagCount(index))
     };
 
     const handleDelete = (...rest: any[]) => {
@@ -82,22 +88,22 @@ export default function Home() {
                         alignItems: 'center',
                         margin: '10px'
                     }}>
-                        <Badge badgeContent={4} color="primary" style={{
+                        <Badge badgeContent={count} color="primary" style={{
                             margin: 10
                         }}>
                             <Chip
                                 icon={<Face />}
                                 label="팥붕"
-                                onClick={handleClick}
+                                onClick={onIncrease}
                                 onDelete={handleDelete}
                             />
                         </Badge>
-                        <Badge badgeContent={4} color="primary" style={{
+                        <Badge badgeContent={count} color="primary" style={{
                             margin: 10
                         }}>
                             <Chip
                                 label="데이먼스 이어"
-                                onClick={handleClick}
+                                onClick={onIncrease}
                                 onDelete={handleDelete}
                             />
                         </Badge>

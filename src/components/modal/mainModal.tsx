@@ -8,6 +8,12 @@ import {IconButton, InputBase, Paper} from "@mui/material";
 import {useState} from "react";
 import { useAppDispatch, useAppSelector, setInfo, addTag, increaseTagCount } from "@/components/store";
 
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import StarRateIcon from '@mui/icons-material/StarRate';
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+
+
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -41,6 +47,25 @@ export default function MainModal() {
         dispatch(increaseTagCount(index))
 
     };
+
+
+    // icon 선택
+    const iconsList = [
+        {id: 1, name: "Favorate", icon: <FavoriteIcon />},
+        {id: 2, name: "StarRate", icon: <StarRateIcon />},
+        {id: 3, name: "SentimentSatisfiedAlt", icon: <SentimentSatisfiedAltIcon />},
+        {id: 4, name: "SentimentVeryDissatisfied", icon: <SentimentVeryDissatisfiedIcon />},
+    ]
+
+    const [iconKind, setIconKind] = useState(0);
+
+
+
+    // @ts-ignore
+    const handleClickIconButton = (value) => {
+        setIconKind(value)
+    }
+
 
     return (
         <div>
@@ -81,7 +106,24 @@ export default function MainModal() {
 
                             />
                         </IconButton>
+
                     </Paper>
+
+
+                    {iconsList.map(kind => (
+                        <IconButton
+                            key={kind.id}
+                            type="button"
+                            aria-label={kind.name}
+                            onClick={handleClickIconButton}
+                        >
+
+                            {kind.icon}
+
+                        </IconButton>
+                    ))}
+
+
                 </Box>
             </Modal>
         </div>
