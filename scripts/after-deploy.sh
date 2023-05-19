@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 어플리케이션 디렉터리
-REPOSITORY=/home/ubuntu/app
+REPOSITORY=/home/ubuntu/app/src/pages
 
 # 배포 디렉터리로 이동
 cd $REPOSITORY
