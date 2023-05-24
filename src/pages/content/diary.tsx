@@ -27,6 +27,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
+import {Map, MapMarker} from "react-kakao-maps-sdk";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -50,7 +51,6 @@ export default function Home() {
     const handleDelete = (...rest: any[]) => {
         console.info('You clicked the delete icon.');
     };
-
     return (
         <>
             <Head>
@@ -59,6 +59,7 @@ export default function Home() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+
             <main className={styles.main}>
                 <MiniDrawer/>
                 <Box sx={{
@@ -67,9 +68,49 @@ export default function Home() {
                     flexDirection: 'column',
                     justifyContent: 'flex-end',
                     alignItems: 'center',
-                    paddingTop: '4rem',
+                    paddingTop: '3rem',
                     paddingLeft: '3rem'
                 }}>
+
+                    <Map // 지도를 표시할 Container
+                        center={{
+                            // 지도의 중심좌표
+                            lat: 33.450701,
+                            lng: 126.570667,
+                        }}
+
+                        style={{
+                            // 지도의 크기
+                            width: "100vh",
+                            height: "100vh",
+                            zIndex: '1'
+                        }}
+                        level={3} // 지도의 확대 레벨
+                    />
+                    <Paper
+                        component="form"
+                        sx={{ position: 'absolute', top: '5rem', width: 4/5, zIndex: '2' }}
+                    >
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between'
+                        }}>
+
+                            <InputBase
+                                sx={{ ml: 1, width: 4/5 }}
+                                placeholder="장소를 찾아보세요"
+                                inputProps={{
+                                    'aria-label': 'search kakao maps',
+                                    maxLength: 20
+                                }}
+                            />
+                            <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                                <Search />
+                            </IconButton>
+                        </Box>
+
+                    </Paper>
                 </Box>
             </main>
         </>
