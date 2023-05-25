@@ -37,6 +37,23 @@ export default function Home() {
     const dispatch = useAppDispatch()
     const info: any | Info = useAppSelector(state => state.userInfo)
     const [count, setCount]  = useState(1)
+    const [chips, setChips] = useState([
+        {
+            id: 1,
+            name: '',
+            icon: ''
+        },
+        {
+            id: 2,
+            name: '',
+            icon: ''
+        },
+        {
+            id: 3,
+            name: '',
+            icon: ''
+        },
+    ]);
 
     const onIncrease = () => {
         setCount(count + 1);
