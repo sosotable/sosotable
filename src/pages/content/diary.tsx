@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector, setInfo, addTag, increaseTagCount } fro
 import {Badge, Chip, Divider, IconButton, InputBase, ListItemAvatar, Paper} from "@mui/material";
 import {Menu, Search, Directions, Favorite, Face} from "@mui/icons-material";
 import MiniDrawer from "@/components/drawer";
-import {useState} from "react";
+import {SetStateAction, useEffect, useState} from "react";
 import MainModal from "@/components/modal/mainModal";
 import * as React from "react";
 import FriendSearchModal from "@/components/modal/friendSearchModal";
@@ -28,6 +28,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import {Map, MapMarker} from "react-kakao-maps-sdk";
+import Marker = daum.maps.Marker;
+import {any} from "prop-types";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -41,16 +43,46 @@ interface Info {
 export default function Home() {
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const info: any | Info = useAppSelector(state => state.userInfo)
 
     const handleClick = (...rest: any[]) => {
         const index = rest[0]
         dispatch(increaseTagCount(index))
     };
 
-    const handleDelete = (...rest: any[]) => {
-        console.info('You clicked the delete icon.');
-    };
+    const [info, setInfo] = useState<any>()
+    const [searchText, setSearchText] = useState<string>()
+    const [markers, setMarkers] = useState([])
+    const [map, setMap] = useState<any>()
+
+    const handleSearch = () => {
+        if (!map) return
+        const ps = new kakao.maps.services.Places()
+        ps.keywordSearch(String(searchText), (data, status, _pagination) => {
+            if (status === kakao.maps.services.Status.OK) {
+                // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+                // LatLngBounds 객체에 좌표를 추가합니다
+                const bounds = new kakao.maps.LatLngBounds()
+                let markers: SetStateAction<never[]> = []
+
+                for (var i = 0; i < data.length; i++) {
+                    // @ts-ignore
+                    markers.push({
+                        position: {
+                            lat: data[i].y,
+                            lng: data[i].x,
+                        },
+                        content: data[i].place_name,
+                    })
+                    // @ts-ignore
+                    bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x))
+                }
+                setMarkers(markers)
+
+                // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+                map.setBounds(bounds)
+            }
+        })
+    }
     return (
         <>
             <Head>
@@ -71,22 +103,32 @@ export default function Home() {
                     paddingTop: '3rem',
                     paddingLeft: '3rem'
                 }}>
-
-                    <Map // 지도를 표시할 Container
+                    <Map // 로드뷰를 표시할 Container
                         center={{
-                            // 지도의 중심좌표
-                            lat: 33.450701,
-                            lng: 126.570667,
+                            lat: 37.566826,
+                            lng: 126.9786567,
                         }}
-
                         style={{
                             // 지도의 크기
                             width: "100vh",
                             height: "100vh",
                             zIndex: '1'
                         }}
-                        level={3} // 지도의 확대 레벨
-                    />
+                        level={3}
+                        onCreate={setMap}
+                    >
+                        {markers.map((marker: any) => (
+                            <MapMarker
+                                key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
+                                position={marker.position}
+                                onClick={() => setInfo(marker)}
+                            >
+                                {info && info.content === marker.content && (
+                                    <div style={{color:"#000"}}>{marker.content}</div>
+                                )}
+                            </MapMarker>
+                        ))}
+                    </Map>
                     <Paper
                         component="form"
                         sx={{ position: 'absolute', top: '5rem', width: 4/5, zIndex: '2' }}
@@ -104,9 +146,15 @@ export default function Home() {
                                     'aria-label': 'search kakao maps',
                                     maxLength: 20
                                 }}
+                                onChange={(e)=>{setSearchText(e.target.value)}}
                             />
-                            <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                                <Search />
+                            <IconButton
+                                type="button"
+                                sx={{ p: '10px' }}
+                                aria-label="search"
+                                onClick={handleSearch}
+                            >
+                                <Search/>
                             </IconButton>
                         </Box>
 
