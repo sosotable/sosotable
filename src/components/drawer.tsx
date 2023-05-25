@@ -151,7 +151,7 @@ export default function MiniDrawer() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {[['Home', '홈', '/content/main'], ['People', '친구', '/content/friend'], ['Bookmarks', '다이어리', '/content/diray']].map((element: string[], index) => (
+                    {[['Home', '홈', '/content/main'], ['People', '친구', '/content/friend'], ['Bookmarks', '다이어리', '/content/diary']].map((element: string[], index) => (
                         <ListItem key={element[0]} disablePadding sx={{ display: 'block' }} >
                             <ListItemButton
                                 sx={{
