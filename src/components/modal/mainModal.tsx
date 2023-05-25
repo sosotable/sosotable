@@ -7,12 +7,12 @@ import {Favorite, Search} from "@mui/icons-material";
 import {IconButton, InputBase, Paper} from "@mui/material";
 import {useState} from "react";
 import { useAppDispatch, useAppSelector, setInfo, addTag, increaseTagCount } from "@/components/store";
+import Home from "@/pages/content/main"
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-
 
 
 const style = {
@@ -86,6 +86,8 @@ export default function MainModal() {
                         component="form"
                         sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 4/5 }}
                     >
+                        {/*
+
                         <InputBase
                             sx={{ ml: 1, flex: 1 }}
                             placeholder="add"
@@ -108,8 +110,9 @@ export default function MainModal() {
                             />
                         </IconButton>
 
-                    </Paper>
+                        */}
 
+                    </Paper>
 
                     {iconsList.map(kind => (
                         <IconButton
@@ -118,15 +121,17 @@ export default function MainModal() {
                             aria-label={kind.name}
                             onClick={handleClickIconButton}
                         >
-
                             {kind.icon}
-
                         </IconButton>
                     ))}
 
 
+
                 </Box>
             </Modal>
+
+
+
         </div>
     );
 }
