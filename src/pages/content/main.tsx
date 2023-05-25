@@ -94,8 +94,11 @@ export default function Home() {
     };
 
 
-
     const onIncrease = (index: number) => {
+        let copyArray = [...chips]
+        let copyCount = chips[index].count
+        copyArray[index] = {...copyArray[index], count: copyCount+1 }
+        setChips(copyArray)
     }
 
     // @ts-ignore
@@ -108,7 +111,7 @@ export default function Home() {
 
     const handleClick = (...rest: any[]) => {
         const index = rest[0]
-        chips[index].count += 1;
+        onIncrease(index)
         console.info('clicked', index, chips[index].count)
         // dispatch(increaseTagCount(index))
     };
