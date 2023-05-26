@@ -31,6 +31,7 @@
     "react-dom": "18.2.0",
     "react-kakao-maps-sdk": "^1.1.9",
     "react-redux": "^8.0.5",
+    "react-window": "^1.8.9",
     "redux": "^4.2.1",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
@@ -39,6 +40,7 @@
     "typescript": "5.0.3"
   },
   "devDependencies": {
+    "@types/react-window": "^1.8.5",
     "daum.maps.d.ts": "github:Musma/daum.maps.d.ts"
   }
 }

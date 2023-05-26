@@ -16,8 +16,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useRouter} from 'next/router'
 import { useAppDispatch, useAppSelector, setInfo, addTag, increaseTagCount } from "@/components/store";
-import {Badge, Chip, Divider, IconButton, InputBase, ListItemAvatar, Paper} from "@mui/material";
-import {Menu, Search, Directions, Favorite, Face} from "@mui/icons-material";
+import {Badge, Chip, Divider, IconButton, InputBase, ListItemAvatar, Paper, Switch} from "@mui/material";
+import {Menu, Search, Directions, Favorite, Face, Inbox, Drafts} from "@mui/icons-material";
 import MiniDrawer from "@/components/drawer";
 import {SetStateAction, useEffect, useState} from "react";
 import MainModal from "@/components/modal/mainModal";
@@ -30,6 +30,11 @@ import ListItemButton from "@mui/material/ListItemButton";
 import {Map, MapMarker} from "react-kakao-maps-sdk";
 import Marker = daum.maps.Marker;
 import {any} from "prop-types";
+import Slide from '@mui/material/Slide';
+import { Theme } from '@mui/material/styles';
+import { FixedSizeList, ListChildComponentProps } from 'react-window';
+import ListItemIcon from "@mui/material/ListItemIcon";
+import PlacesSearchResultItem = daum.maps.services.PlacesSearchResultItem;
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -40,10 +45,23 @@ interface Info {
     tag: []
 }
 
-export default function Home() {
+export default function Diary() {
+    function renderRow(props: ListChildComponentProps) {
+        const { index, style } = props;
+        if(searchList == undefined) {
+            return <></>
+        }
+        console.log(searchList)
+        return (
+            <ListItem style={style} key={index} component="div" disablePadding>
+                <ListItemButton>
+                    <ListItemText primary={`Item ${searchList[index].place_name}`} />
+                </ListItemButton>
+            </ListItem>
+        );
+    }
     const router = useRouter()
     const dispatch = useAppDispatch()
-
     const handleClick = (...rest: any[]) => {
         const index = rest[0]
         dispatch(increaseTagCount(index))
@@ -54,17 +72,31 @@ export default function Home() {
     const [markers, setMarkers] = useState([])
     const [map, setMap] = useState<any>()
 
+    const [checked, setChecked] = React.useState(false);
+    const [searchList, setSearchList] = useState<PlacesSearchResultItem[] | any[]>()
+    const containerRef = React.useRef(null);
+
+    const [searchResult, setSearchResult] = useState<boolean>(false)
+
+    const handleChange = () => {
+        setChecked((prev) => !prev);
+    };
+
     const handleSearch = () => {
         if (!map) return
         const ps = new kakao.maps.services.Places()
         ps.keywordSearch(String(searchText), (data, status, _pagination) => {
             if (status === kakao.maps.services.Status.OK) {
+                // MARK: 검색 이후 슬라이드 내리기
+                checked ? handleChange() : false
+                // MARK: 결과 확인 보이도록 함
+                setSearchResult(true)
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
                 // LatLngBounds 객체에 좌표를 추가합니다
                 const bounds = new kakao.maps.LatLngBounds()
                 let markers: SetStateAction<never[]> = []
-
-                for (var i = 0; i < data.length; i++) {
+                setSearchList(data)
+                for (let i = 0; i < data.length; i++) {
                     // @ts-ignore
                     markers.push({
                         position: {
@@ -157,8 +189,58 @@ export default function Home() {
                                 <Search/>
                             </IconButton>
                         </Box>
-
                     </Paper>
+                    {
+                        searchResult ? (
+                            <>
+                                <Box sx={{
+                                    width: 1,
+                                    zIndex: '2',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    alignContent: 'center'
+                                }}>
+                                    <FormControlLabel
+                                        control={<Switch checked={checked} onChange={handleChange} />}
+                                        label="목록 보이기"
+                                        sx={{
+                                            position: 'absolute',
+                                            top: '8rem',
+                                            left: '60%',
+                                            width: 1,
+                                            zIndex: '2'
+                                        }}
+                                    />
+                                    <Slide
+                                        direction="up"
+                                        in={checked}
+                                        container={containerRef.current}
+                                        style={{
+                                            position: 'absolute',
+                                            bottom: 0,
+                                            width: '50vh',
+                                            zIndex: '2'
+                                        }}
+                                    >
+                                        <Paper sx={{ m: 1, width: '100vh'}} elevation={4}>
+                                            <FixedSizeList
+                                                height={360}
+                                                width={360}
+                                                itemSize={46}
+                                                itemCount={Number(searchList?.length)}
+                                                overscanCount={5}
+                                            >
+                                                {renderRow}
+                                            </FixedSizeList>
+                                        </Paper>
+                                    </Slide>
+                                </Box>
+                            </>
+                        ) : false
+                    }
+
                 </Box>
             </main>
         </>
