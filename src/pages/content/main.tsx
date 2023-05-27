@@ -98,6 +98,7 @@ export default function Home() {
             count: 1
         });
         nextId.current += 1;
+        setIcons('');
     };
 
 
