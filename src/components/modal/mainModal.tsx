@@ -14,7 +14,6 @@ import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 
 
-
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -46,7 +45,6 @@ export default function MainModal() {
     const handleClick = (...rest: any[]) => {
         const index = rest[0]
         dispatch(increaseTagCount(index))
-
     };
 
 
@@ -60,13 +58,11 @@ export default function MainModal() {
 
     const [iconKind, setIconKind] = useState(0);
 
-
-
     // @ts-ignore
-    const handleClickIconButton = (value) => {
-        setIconKind(value)
+    const handleClickIconButton = (...rest: any[]) => {
+        const index = rest[0]
+        console.info(index)
     }
-
 
     return (
         <div>
@@ -86,6 +82,8 @@ export default function MainModal() {
                         component="form"
                         sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 4/5 }}
                     >
+                        {/*
+
                         <InputBase
                             sx={{ ml: 1, flex: 1 }}
                             placeholder="add"
@@ -108,8 +106,10 @@ export default function MainModal() {
                             />
                         </IconButton>
 
-                    </Paper>
+                        */}
 
+
+                    </Paper>
 
                     {iconsList.map(kind => (
                         <IconButton
@@ -118,15 +118,14 @@ export default function MainModal() {
                             aria-label={kind.name}
                             onClick={handleClickIconButton}
                         >
-
                             {kind.icon}
-
                         </IconButton>
                     ))}
-
-
                 </Box>
             </Modal>
+
+
+
         </div>
     );
 }

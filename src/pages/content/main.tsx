@@ -19,9 +19,14 @@ import { useAppDispatch, useAppSelector, setInfo, addTag, increaseTagCount } fro
 import {Badge, Chip, Divider, IconButton, InputBase, Paper} from "@mui/material";
 import {Menu, Search, Directions, Favorite, Face} from "@mui/icons-material";
 import MiniDrawer from "@/components/drawer";
-import {useState} from "react";
+import {useRef, useState} from "react";
 import MainModal from "@/components/modal/mainModal";
 import * as React from "react";
+
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import StarRateIcon from "@mui/icons-material/StarRate";
+import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -36,21 +41,104 @@ export default function Home() {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const info: any | Info = useAppSelector(state => state.userInfo)
-    const [count, setCount]  = useState(1)
+    const [inputs, setInputs] = useState({
+        name: '',
+        icon: '',
+        count: 1
+    })
+    const {name, icon, count} = inputs;
 
-    const onIncrease = () => {
-        setCount(count + 1);
-    }
+    const [chipsName, setChipsName] = useState('');
+    const [icons, setIcons] = useState('');
+    const [chips, setChips] = useState([
+        {
+            id: 1,
+            name: 'a',
+            icon: '',
+            count: 1
+        },
+        {
+            id: 2,
+            name: 'b',
+            icon: '',
+            count: 1
+        },
+        {
+            id: 3,
+            name: 'c',
+            icon: '',
+            count: 1
+        },
+    ]);
+    const nextId = useRef(4);
+
+    // @ts-ignore
+    const onChange = (e) => {
+        const {name, value} = e.target;
+        setInputs({
+            ...inputs,
+            [name]: value,
+        });
+    };
+
+    // @ts-ignore
+    const onCreateChip = (name, icon) => {
+        const chip = {
+            id: nextId.current,
+            name: name,
+            icon: icon,
+            count
+        };
+
+        setChips([...chips, chip]);
+
+        setInputs({
+            name: "",
+            icon: "",
+            count: 1
+        });
+        nextId.current += 1;
+        setIcons('');
+    };
+
+
+    const onIncrease = (index: number) => {
+        let copyArray = [...chips]
+        let copyCount = chips[index].count
+        copyArray[index] = {...copyArray[index], count: copyCount + 1}
+        setChips(copyArray)
+    };
+
+    // @ts-ignore
+    const onRemove = id => {
+        setChips(chips.filter(chip => chip.id !== id));
+    };
+
+    // @ts-ignore
+    const handleIconClick = (id, icon) => {
+        setIcons(icon);
+    };
+
 
     const handleClick = (...rest: any[]) => {
         const index = rest[0]
-        console.info("clicked ")
+        onIncrease(index)
+        console.info('clicked', index, chips[index].count)
         // dispatch(increaseTagCount(index))
     };
 
     const handleDelete = (...rest: any[]) => {
+        const id = rest[0]
         console.info('You clicked the delete icon.');
+        onRemove(id)
     };
+
+    const iconsList = [
+        {id: 1, name: "Favorate", icon: <FavoriteIcon />},
+        {id: 2, name: "StarRate", icon: <StarRateIcon />},
+        {id: 3, name: "SentimentSatisfiedAlt", icon: <SentimentSatisfiedAltIcon />},
+        {id: 4, name: "SentimentVeryDissatisfied", icon: <SentimentVeryDissatisfiedIcon />},
+    ]
 
     return (
         <>
@@ -80,6 +168,48 @@ export default function Home() {
                         소소식탁
                     </Typography>
                     <MainModal/>
+
+                    <div>
+                        {iconsList.map(kind => (
+                            <IconButton
+                                key={kind.id}
+                                type="button"
+                                aria-label={kind.name}
+                                onClick={(e)=>{handleIconClick(kind.id, kind.icon)}}
+                            >
+                                {kind.icon}
+                            </IconButton>
+                        ))}
+                    </div>
+                    <Paper
+                        component="form"
+                        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 4/5 }}
+                    >
+                        <InputBase
+                            sx={{ ml: 1, flex: 1 }}
+                            placeholder="add"
+                            value={chipsName}
+                            inputProps={{ 'aria-label': 'add' }}
+                            onChange={(e) => setChipsName(e.target.value)}
+                        />
+                        <IconButton
+                            type="button"
+                            sx={{ p: '10px' }}
+                            aria-label="search"
+                            onClick={()=>{
+                                onCreateChip(chipsName, icons)
+                            }}
+                        >
+                            <Search
+
+                            />
+                        </IconButton>
+                    </Paper>
+
+
+
+
+
                     <Box sx={{
                         display: 'flex',
                         flexWrap: 'wrap',
@@ -88,7 +218,9 @@ export default function Home() {
                         alignItems: 'center',
                         margin: '10px'
                     }}>
-                        <Badge badgeContent={count} color="primary" style={{
+                        {/*
+
+                        <Badge badgeContent={4} color="primary" style={{
                             margin: 10
                         }}>
                             <Chip
@@ -98,7 +230,7 @@ export default function Home() {
                                 onDelete={handleDelete}
                             />
                         </Badge>
-                        <Badge badgeContent={count} color="primary" style={{
+                        <Badge badgeContent={4} color="primary" style={{
                             margin: 10
                         }}>
                             <Chip
@@ -116,54 +248,67 @@ export default function Home() {
                                 onDelete={handleDelete}
                             />
                         </Badge>
-                        <Badge badgeContent={4} color="primary" style={{
-                            margin: 10
-                        }}>
-                            <Chip
-                                label="운동"
-                                onClick={handleClick}
-                                onDelete={handleDelete}
-                            />
-                        </Badge>
-                        <Badge badgeContent={4} color="primary" style={{
-                            margin: 10
-                        }}>
-                            <Chip
-                                label="초콜렛"
-                                onClick={handleClick}
-                                onDelete={handleDelete}
-                            />
-                        </Badge>
-                        <Badge badgeContent={4} color="primary" style={{
-                            margin: 10
-                        }}>
-                            <Chip
-                                label="INFJ"
-                                onClick={handleClick}
-                                onDelete={handleDelete}
-                            />
-                        </Badge>
+
+
+
                         {
                             info.tag.map((element: Info | any, index: number) => (
                                 <Badge
-                                    badgeContent={element.count}
+                                    badgeContent={count[index]}
                                     color="primary"
                                     key={index}
                                     style={{
                                         margin: 10
                                     }}>
                                     <Chip
-                                        label={element.value}
+                                        label={element.value + index}
                                         onClick={() => handleClick(index)}
                                         onDelete={() => handleDelete(index)}
                                     />
                                 </Badge>
                             ))
                         }
-                    </Box>
+                    */}
 
+                        {
+                            chips.map((chip, index) => (
+                                chip.icon != ''
+                                ?
+                                <Badge
+                                    badgeContent={chip.count}
+                                    color="primary"
+                                    key={chip.id}
+                                    style={{
+                                        margin: 10
+                                    }}>
+                                    <Chip
+                                        label={chip.name}
+                                        icon={chip.icon}
+                                        onClick={() => handleClick(index)}
+                                        onDelete={() => handleDelete(chip.id)}
+                                    />
+                                </Badge>
+                                    :
+                                    <Badge
+                                        badgeContent={chip.count}
+                                        color="primary"
+                                        key={chip.id}
+                                        style={{
+                                            margin: 10
+                                        }}>
+                                        <Chip
+                                            label={chip.name}
+                                            onClick={() => handleClick(index)}
+                                            onDelete={() => handleDelete(chip.id)}
+                                        />
+                                    </Badge>
+                            ))
+                        }
+
+                    </Box>
                 </Box>
             </main>
         </>
     )
 }
+
