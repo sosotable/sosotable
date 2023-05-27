@@ -7,7 +7,6 @@ import {Favorite, Search} from "@mui/icons-material";
 import {IconButton, InputBase, Paper} from "@mui/material";
 import {useState} from "react";
 import { useAppDispatch, useAppSelector, setInfo, addTag, increaseTagCount } from "@/components/store";
-import Home from "@/pages/content/main"
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarRateIcon from '@mui/icons-material/StarRate';
@@ -46,7 +45,6 @@ export default function MainModal() {
     const handleClick = (...rest: any[]) => {
         const index = rest[0]
         dispatch(increaseTagCount(index))
-
     };
 
 
@@ -60,13 +58,11 @@ export default function MainModal() {
 
     const [iconKind, setIconKind] = useState(0);
 
-
-
     // @ts-ignore
-    const handleClickIconButton = (value) => {
-        setIconKind(value)
+    const handleClickIconButton = (...rest: any[]) => {
+        const index = rest[0]
+        console.info(index)
     }
-
 
     return (
         <div>
@@ -112,6 +108,7 @@ export default function MainModal() {
 
                         */}
 
+
                     </Paper>
 
                     {iconsList.map(kind => (
@@ -124,9 +121,6 @@ export default function MainModal() {
                             {kind.icon}
                         </IconButton>
                     ))}
-
-
-
                 </Box>
             </Modal>
 
