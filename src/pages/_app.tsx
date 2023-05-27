@@ -11,7 +11,15 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 function Copyright(props: any) {
     return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        <Typography
+            variant="body2"
+            color="text.secondary"
+            align="center"
+            style={{
+                padding: 0,
+                margin: 0
+            }}
+            {...props}>
             {'Copyright © '}
             <Link color="inherit" href="https://github.com/sosotable">
                 소소식탁
