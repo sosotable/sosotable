@@ -35,7 +35,9 @@ export const userInfoSlice = createSlice({
         },
         addTag(state, action) {
             state.tag.push({
+                id: 0,
                 value: action.payload,
+                icon: '',
                 count: 0
             })
         },

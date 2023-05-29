@@ -272,8 +272,6 @@ export default function Home() {
 
                         {
                             chips.map((chip, index) => (
-                                chip.icon != ''
-                                ?
                                 <Badge
                                     badgeContent={chip.count}
                                     color="primary"
@@ -283,25 +281,10 @@ export default function Home() {
                                     }}>
                                     <Chip
                                         label={chip.name}
-                                        icon={chip.icon}
                                         onClick={() => handleClick(index)}
                                         onDelete={() => handleDelete(chip.id)}
                                     />
                                 </Badge>
-                                    :
-                                    <Badge
-                                        badgeContent={chip.count}
-                                        color="primary"
-                                        key={chip.id}
-                                        style={{
-                                            margin: 10
-                                        }}>
-                                        <Chip
-                                            label={chip.name}
-                                            onClick={() => handleClick(index)}
-                                            onDelete={() => handleDelete(chip.id)}
-                                        />
-                                    </Badge>
                             ))
                         }
 
