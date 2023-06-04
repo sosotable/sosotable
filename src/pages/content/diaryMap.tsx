@@ -45,7 +45,7 @@ interface Info {
     tag: []
 }
 
-export default function Diary() {
+export default function DiaryMap() {
     function renderRow(props: ListChildComponentProps) {
         const { index, style } = props;
         if(searchList == undefined) {

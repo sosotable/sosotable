@@ -13,7 +13,8 @@ export const userInfoSlice = createSlice({
         id: '',
         password: '',
         nickname: '',
-        tag: []
+        tag: [],
+        diary: []
     } as any,
 
     reducers: {
@@ -31,6 +32,8 @@ export const userInfoSlice = createSlice({
                 case 'tag':
                     state.tag = action.payload.value
                     break
+                case 'diary':
+                    state.diary = action.payload.value
             }
         },
         addTag(state, action) {
@@ -46,6 +49,15 @@ export const userInfoSlice = createSlice({
         },
         deleteTagCount(state, action) {
             state.tag.splice(action.payload, 1)
+        },
+        addDiary(state, action) {
+            state.diary.push({
+                id: 0,
+                value: action.payload,
+                title: '',
+                content: '',
+                date: ''
+            })
         }
     },
 
