@@ -17,6 +17,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useRouter} from 'next/router'
 import { useAppDispatch, useAppSelector, setInfo } from "@/components/store";
 import { Map, MapMarker } from "react-kakao-maps-sdk"
+import axios from "axios";
+import {router} from "next/client";
 
 function Copyright(props: any) {
 
@@ -38,13 +40,36 @@ export default function Home() {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const info = useAppSelector(state => state.userInfo)
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log({
             email: data.get('email'),
             password: data.get('password'),
         });
+
+        try {
+            const response = await axios.post('https://ihly0ifkbi.execute-api.us-east-2.amazonaws.com/default/ssossotable-signin', {
+                email: data.get('email'),
+                password: data.get('password')
+            });
+            console.log('axios');
+
+            switch (response.status) {
+                case 201:
+                    await router.push('/content/main');
+                    break;
+                case 202:
+                    console.log('wrong email or password');
+                    break;
+                default:
+                    console.log("An error occurred");
+                    break;
+            }
+        } catch (error) {
+            console.error(error)
+        }
     };
   return (
     <>
