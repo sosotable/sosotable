@@ -25,9 +25,11 @@
     "dotenv": "^16.0.3",
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
+    "moment": "^2.29.4",
     "next": "13.2.4",
     "next-redux-wrapper": "^8.1.0",
     "react": "18.2.0",
+    "react-calendar": "^4.2.1",
     "react-dom": "18.2.0",
     "react-kakao-maps-sdk": "^1.1.9",
     "react-redux": "^8.0.5",
@@ -41,6 +43,7 @@
   },
   "devDependencies": {
     "@types/react-window": "^1.8.5",
+    "@types/styled-components": "^5.1.26",
     "daum.maps.d.ts": "github:Musma/daum.maps.d.ts"
   }
 }

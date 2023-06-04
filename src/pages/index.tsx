@@ -140,6 +140,15 @@ export default function Home() {
                   >
                       {"로그인"}
                   </Button>
+                  <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2 }}
+                      onClick={()=>router.push('/content/calendar')}
+                  >
+                      {"캘린더"}
+                  </Button>
                   <Grid container spacing={0} sx={{mb: 2, mt: 1, ml:'auto', mr:'auto', width: '80%', flexWrap: 'nowrap'}}>
                       <Grid item xs={12} sm={4}  sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignContent: 'center' }}>
                           <Image width={'70'} height={'70'} src={'/kakao.svg'} alt={'kakao'}/>
